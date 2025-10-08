@@ -1,4 +1,4 @@
-package com.degaltseva;
+package com.degaltseva.task1;
 
 import java.util.Random;
 import java.util.Scanner;
