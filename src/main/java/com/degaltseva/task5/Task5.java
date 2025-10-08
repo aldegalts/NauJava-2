@@ -1,42 +1,22 @@
 package com.degaltseva.task5;
 
-public class Task5 implements Task {
-    private int seconds;
-    private boolean isRunning;
-    private Thread timerThread;
+import com.degaltseva.MyRunnable;
+
+public class Task5 implements MyRunnable {
+    private final ITimer timer;
 
     public Task5(int seconds) {
-        this.seconds = seconds;
-        this.isRunning = false;
+        this.timer = new TimerImpl(seconds);
     }
 
     @Override
-    public void start() {
-        if (!isRunning) {
-            isRunning = true;
-            timerThread = new Thread(() -> {
-                try {
-                    while (seconds > 0 && isRunning) {
-                        System.out.println("Осталось: " + seconds + " секунд");
-                        Thread.sleep(1000);
-                        seconds--;
-                    }
-                    if (seconds == 0 && isRunning) {
-                        System.out.println("Таймер завершился!");
-                    }
-                } catch (InterruptedException e) {
-                    System.out.println("Таймер был прерван!");
-                }
-            });
-            timerThread.start();
-        }
-    }
-
-    @Override
-    public void stop() {
-        isRunning = false;
-        if (timerThread != null) {
-            timerThread.interrupt();
+    public void run() {
+        timer.start();
+        try {
+            Thread.sleep(3000);
+            timer.stop();
+        } catch (InterruptedException e) {
+            System.err.println("Ошибка в Task5: " + e.getMessage());
         }
     }
 }
