@@ -1,27 +1,20 @@
 package com.degaltseva.task2;
 
+import com.degaltseva.MyRunnable;
+
 import java.util.*;
 
-public class Task2 {
+public class Task2 implements MyRunnable {
 
-    public static void startTask2() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите количество элементов списка: ");
-        int n = scanner.nextInt();
+    @Override
+    public void run() {
+        int n = getN();
 
-        ArrayList<Double> list = new ArrayList<>();
-        Random rand = new Random();
-        for (int i = 0; i < n; i++) {
-            list.add(rand.nextDouble() * 100);
-        }
-
-        System.out.println("Исходный список:");
-        System.out.println(list);
+        ArrayList<Double> list = createList(n);
+        printList(list);
 
         list = mergeSort(list);
-
-        System.out.println("Отсортированный список:");
-        System.out.println(list);
+        showResult(list);
     }
 
     public static ArrayList<Double> mergeSort(ArrayList<Double> list) {
@@ -50,6 +43,31 @@ public class Task2 {
         result.addAll(left.subList(i, left.size()));
         result.addAll(right.subList(j, right.size()));
         return result;
+    }
+
+    private int getN() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество элементов списка: ");
+        return scanner.nextInt();
+    }
+
+    private ArrayList<Double> createList(int n) {
+        ArrayList<Double> list = new ArrayList<>();
+        Random rand = new Random();
+        for (int i = 0; i < n; i++) {
+            list.add(rand.nextDouble() * 100);
+        }
+        return list;
+    }
+
+    private void printList(ArrayList<Double> list) {
+        System.out.println("Исходный список:");
+        System.out.println(list);
+    }
+
+    private void showResult(ArrayList<Double> list) {
+        System.out.println("Отсортированный список:");
+        System.out.println(list);
     }
 }
 
