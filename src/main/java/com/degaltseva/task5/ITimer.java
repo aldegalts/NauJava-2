@@ -1,6 +1,6 @@
 package com.degaltseva.task5;
 
-public interface Task {
+public interface ITimer {
     void start();
     void stop();
 }

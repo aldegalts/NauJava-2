@@ -1,33 +1,48 @@
 package com.degaltseva.task4;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.*;
+import com.degaltseva.MyRunnable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Task4 {
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
-    public static void startTask4() {
-        try {
-            HttpClient client = HttpClient.newHttpClient();
+public class Task4 implements MyRunnable {
 
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("https://httpbin.org/ip"))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            ObjectMapper mapper = new ObjectMapper();
-            JsonNode jsonNode = mapper.readTree(response.body());
-
-            String ip = jsonNode.get("origin").asText();
-
-            System.out.println("IP-адрес: " + ip);
-
+    @Override
+    public void run() {
+        try (HttpClient client = HttpClient.newHttpClient()) {
+            HttpRequest request = createHttpRequest();
+            HttpResponse<String> response = sendRequest(client, request);
+            String ip = parseIpFromResponse(response);
+            printIp(ip);
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            System.err.println("Ошибка при выполнении запроса: " + e.getMessage());
         }
+    }
+
+    private HttpRequest createHttpRequest() {
+        return HttpRequest.newBuilder()
+                .uri(URI.create("https://httpbin.org/ip"))
+                .GET()
+                .build();
+    }
+
+    private HttpResponse<String> sendRequest(HttpClient client, HttpRequest request)
+            throws IOException, InterruptedException {
+        return client.send(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    private String parseIpFromResponse(HttpResponse<String> response) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(response.body());
+        return jsonNode.get("origin").asText();
+    }
+
+    private void printIp(String ip) {
+        System.out.println("IP-адрес: " + ip);
     }
 }
