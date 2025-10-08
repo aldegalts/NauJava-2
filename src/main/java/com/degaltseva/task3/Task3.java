@@ -5,7 +5,7 @@ import java.util.*;
 
 public class Task3 {
 
-    public static void main(String[] args) {
+    public static void startTask3() {
         ArrayList<Employee> employees = new ArrayList<>(List.of(
                 new Employee("Иванов Иван", 20, "IT", 90000),
                 new Employee("Петров Пётр", 35, "Бухгалтерия", 75000),

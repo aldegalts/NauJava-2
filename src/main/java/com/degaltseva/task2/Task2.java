@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Task2 {
 
-    public static void main(String[] args) {
+    public static void startTask2() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите количество элементов списка: ");
         int n = scanner.nextInt();

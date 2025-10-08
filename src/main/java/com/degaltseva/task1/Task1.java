@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Task1 {
 
-    public static void main(String[] args) {
+    public static void startTask1() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Введите количество элементов массива: ");
         int n = scanner.nextInt();
